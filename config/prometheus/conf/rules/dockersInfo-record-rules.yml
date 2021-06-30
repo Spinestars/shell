@@ -1,0 +1,40 @@
+groups:
+  - name: dockersInfo-record
+    rules:
+    - expr: count by (instance, name) (count_over_time(container_last_seen{job="auto_discovery_dns", name!="", container_label_restartcount!=""}[15m]))
+      record: dockersInfo:container:restart
+      labels:
+        desc: "15m周期内容器发生重启的次数"
+        unit: ""
+        job: "auto_discovery_dns"
+##############################################################################################
+#                              cpu                                                           #
+    - expr: rate(container_cpu_usage_seconds_total{job="auto_discovery_dns", name!=''}[5m])  * 100
+      record: dockersInfo:container:cpu:total:percent
+      labels:
+        desc: "容器的cpu总消耗百分比"
+        unit: "%"
+        job: "auto_discovery_dns"
+
+    - expr: rate(container_fs_io_time_seconds_total{job="auto_discovery_dns", name!=''}[5m])  * 100
+      record: dockersInfo:cpu:iowait:percent
+      labels:
+        desc: "容器的cpu iowait百分比"
+        unit: "%"
+        job: "auto_discovery_dns"
+
+##############################################################################################
+#                                    memory                                                  #
+    - expr: container_spec_memory_limit_bytes{job="auto_discovery_dns", name!=''}
+      record: dockersInfo:memory:total
+      labels:
+        desc: "容器的内存总量"
+        unit: byte
+        job: "auto_discovery_dns"
+
+    - expr: container_memory_usage_bytes{job="auto_discovery_dns", name!=''} / container_spec_memory_limit_bytes{job="auto_discovery_dns", name!=''} * 100
+      record: dockersInfo:memory:used:percent
+      labels:
+        desc: "容器的内存使用百分比"
+        unit: "%"
+        job: "auto_discovery_dns"

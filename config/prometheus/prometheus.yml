@@ -1,0 +1,152 @@
+# my global config
+global:
+  scrape_interval:     15s # Set the scrape interval to every 15 seconds. Default is every 1 minute.
+  evaluation_interval: 15s # Evaluate rules every 15 seconds. The default is every 1 minute.
+  # scrape_timeout is set to the global default (10s).
+
+# Alertmanager configuration
+alerting:
+  alertmanagers:
+  - static_configs:
+    - targets:
+      - alertmanager:9093
+
+# Load rules once and periodically evaluate them according to the global 'evaluation_interval'.
+rule_files:
+  - "/etc/prometheus/conf/rules/*.yml"
+
+# A scrape configuration containing exactly one endpoint to scrape:
+# Here it's Prometheus itself.
+scrape_configs:
+  - job_name: "auto_discovery_dns"
+    relabel_configs:
+    - source_labels: ["__address__"]  # 获取原始标签
+      regex: "(.*):9100" # 匹配原始标签的值
+      replacement: "$1" # 提取 regex 中拿到的值
+      target_label: "instance" # 设定要修改的目标标签
+      action: replace # 将目标标签的值替换为 replacement 提取的值
+    - source_labels: ["__address__"]  # 获取原始标签
+      regex: "(.*):10052" # 匹配原始标签的值
+      replacement: "$1" # 提取 regex 中拿到的值
+      target_label: "instance" # 设定要修改的目标标签
+      action: replace # 将目标标签的值替换为 replacement 提取的值
+    metric_relabel_configs:
+    - source_labels: ["__name__"] # 获取原始标签
+      regex: "^go_.*|^process_.*" # 匹配标签值
+      action: drop # 删除，不让数据落盘
+    dns_sd_configs:
+    - names: ["_prometheus._tcp.zjk.pj"]
+
+  - job_name: 'redis-list'
+    metrics_path: /scrape
+    relabel_configs:
+    - source_labels: [__address__]
+      target_label: __param_target
+    - source_labels: [__param_target]
+      target_label: instance
+    - target_label: __address__
+      replacement: redis_exporter:9121
+    static_configs:
+    - targets:
+      - redis://redis-001.redis.zhangbei.rds.aliyuncs.com:6379
+      - redis://redis-002.redis.zhangbei.rds.aliyuncs.com:6379
+
+  - job_name: 'redis_exporter'
+    static_configs:
+      - targets:
+        - redis_exporter:9121
+
+  - job_name: 'mysql-001'
+    static_configs:
+      - targets: ['mysqld-exporter:9104']
+        labels:
+          instance: mysql-001.mysql.zhangbei.rds.aliyuncs.com:3306
+
+  - job_name: 'k8s-cadvisor' # 抓容器
+    scheme: https
+    metrics_path: /metrics
+    tls_config:
+      ca_file: /etc/prometheus/conf/prometheus.crt
+      insecure_skip_verify: true
+    bearer_token_file: /etc/prometheus/conf/prometheus.bearer_token
+    kubernetes_sd_configs:
+    - role: node
+      api_server: "https://10.3.176.130:6443"
+      tls_config:
+        ca_file: /etc/prometheus/conf/prometheus.crt
+        insecure_skip_verify: true
+      bearer_token_file: /etc/prometheus/conf/prometheus.bearer_token
+    relabel_configs:
+    - action: labelmap
+      regex: __meta_kubernetes_node_label_(.+)
+
+    metric_relabel_configs:
+    - source_labels: [instance]
+      separator: ;
+      regex: (.+)
+      target_label: node
+      replacement: $1
+      action: replace
+
+    # 替换老版本k8s中Cadvisor的指标为新版本指标
+    - source_labels: [pod_name]
+      separator: ;
+      regex: (.+)
+      target_label: pod
+      replacement: $1
+      action: replace
+    - source_labels: [container_name]
+      separator: ;
+      regex: (.+)
+      target_label: container
+      replacement: $1
+      action: replace
+
+  - job_name: "kube-state-metrics" # 抓工作负载资源
+    scheme: http
+    tls_config:
+      ca_file: /etc/prometheus/conf/prometheus.crt
+      insecure_skip_verify: true
+    bearer_token_file: /etc/prometheus/conf/prometheus.bearer_token
+    kubernetes_sd_configs:
+    - role: endpoints
+      api_server: "https://10.3.176.130:6443"
+      tls_config:
+        ca_file: /etc/prometheus/conf/prometheus.crt
+        insecure_skip_verify: true
+      bearer_token_file: /etc/prometheus/conf/prometheus.bearer_token
+    relabel_configs:
+    - source_labels: [__meta_kubernetes_service_label_app_kubernetes_io_name] # 将自动发现的endpoint只保留kube-state-metrics
+      regex: kube-state-metrics
+      replacement: $1
+      action: keep
+    - action: labelmap
+      regex: __meta_kubernetes_service_label_(.+)
+    - source_labels: [__meta_kubernetes_namespace]
+      action: replace
+      target_label: k8s_namespace
+    - source_labels: [__meta_kubernetes_service_name]
+      action: replace
+      target_label: k8s_sname
+    metric_relabel_configs: # 排除kube_job
+    - source_labels: [__name__]
+      regex: "^go_.*"
+      action: drop
+
+  - job_name: 'kubernetes-apiservers'
+    scheme: https
+    tls_config:
+      ca_file: /etc/prometheus/conf/prometheus.crt
+      insecure_skip_verify: true
+    bearer_token_file: /etc/prometheus/conf/prometheus.bearer_token
+    kubernetes_sd_configs:
+    - role: endpoints
+      api_server: "https://10.3.176.130:6443"
+      tls_config:
+        ca_file: /etc/prometheus/conf/prometheus.crt
+        insecure_skip_verify: true
+      bearer_token_file: /etc/prometheus/conf/prometheus.bearer_token
+    relabel_configs:
+    - source_labels: [__meta_kubernetes_namespace, __meta_kubernetes_service_name, __meta_kubernetes_endpoint_port_name]
+      action: keep
+      regex: default;kubernetes;https

@@ -1,0 +1,48 @@
+groups:
+- name: kubernetes
+  rules:
+  - alert: kube endpoint down
+    expr: (up{job="kube-state-metrics"} or up{job="kubernetes-apiservers"}) != 1  #0不正常，1正常
+    for: 5m  #持续时间 ，表示持续5分钟获取不到信息，则触发报警
+    labels:
+      severity: error
+      cluster: k8s
+    annotations:
+      summary: "Job: {{ $labels.job }} down"
+      description: "Instance:{{ $labels.instance }}, Job {{ $labels.job }} stop "
+  - alert: JobFailed
+    expr: kube_job_status_failed == 1
+    for: 5m
+    labels:
+      severity: error
+      cluster: k8s
+    annotations:
+      summary: 'Job: {{ $labels.job }} failed'
+      description: 'Namespace: {{ $labels.namespace }}, Job: {{ $labels.job }} run failed.'
+  - alert: PodDown
+    expr: kube_pod_container_status_running{container!~"sps-zjk-prod-ffmpeg|jnlp"} != 1
+    for: 2s
+    labels:
+      severity: warning
+      cluster: k8s
+    annotations:
+      summary: 'Container: {{ $labels.container }} down'
+      description: 'Namespace: {{ $labels.namespace }}, Pod: {{ $labels.pod }} is not running'
+  - alert: PodReady
+    expr: kube_pod_container_status_ready{container!="sps-zjk-prod-ffmpeg"} != 1
+    for: 5m   #Ready持续5分钟，说明启动有问题
+    labels:
+      severity: warning
+      cluster: k8s
+    annotations:
+      summary: 'Container: {{ $labels.container }} ready'
+      description: 'Namespace: {{ $labels.namespace }}, Pod: {{ $labels.pod }} always ready for 5m'
+  - alert: PodRestart
+    expr: changes(kube_pod_container_status_restarts_total[30m])>0 #最近30分钟pod重启次数
+    for: 2s
+    labels:
+      severity: warning
+      cluster: k8s
+    annotations:
+      summary: 'Container: {{ $labels.container }} restart'
+      description: 'namespace: {{ $labels.namespace }}, pod: {{ $labels.pod }} restart {{ $value }} times'

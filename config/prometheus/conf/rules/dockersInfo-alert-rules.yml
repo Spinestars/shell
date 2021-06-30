@@ -1,0 +1,54 @@
+groups:
+  - name: container-alert
+    rules:
+    - alert: container-restart-times-high
+      expr: dockersInfo:container:restart > 5
+      for: 1m
+      labels:
+        severity: warn
+      annotations:
+        summary: "instance: {{ $labels.instance }} 下的 container: {{ $labels.name }} 15分钟内重启次数超过5次"
+        grafana: "http://proms.pengwin.com:3000/d/Ss3q6hSZk/dockersinfo?orgId=1&var-node={{ $labels.instance }}"
+        console: "https://ecs.console.aliyun.com/#/server/{{ $labels.instanceid }}/detail?regionId=cn-beijing"
+        cloudmonitor: "https://cloudmonitor.console.aliyun.com/#/hostDetail/chart/instanceId={{ $labels.instanceid }}&system=&region=cn-beijing&aliyunhost=true"
+        id: "{{ $labels.instanceid }}"
+        type: "aliyun_meta_ecs_info"
+
+    - alert: container-cpu-usage-high
+      expr: dockersInfo:container:cpu:total:percent > 90
+      for: 1m
+      labels:
+        severity: info
+      annotations:
+        summary: "instance: {{ $labels.instance }} 下的 container: {{ $labels.name }} cpu 使用率持续超过90%."
+        grafana: "http://proms.pengwin.com:3000/d/Ss3q6hSZk/dockersinfo?orgId=1&var-node={{ $labels.instance }}"
+        console: "https://ecs.console.aliyun.com/#/server/{{ $labels.instanceid }}/detail?regionId=cn-beijing"
+        cloudmonitor: "https://cloudmonitor.console.aliyun.com/#/hostDetail/chart/instanceId={{ $labels.instanceid }}&system=&region=cn-beijing&aliyunhost=true"
+        id: "{{ $labels.instanceid }}"
+        type: "aliyun_meta_ecs_info"
+
+    - alert: container-cpu-iowait-high
+      expr: dockersInfo:cpu:iowait:percent > 10
+      for: 1m
+      labels:
+        severity: warn
+      annotations:
+        summary: "instance: {{ $labels.instance }} 下的 container: {{ $labels.name }} cpu iowait 持续超过10%"
+        grafana: "http://proms.pengwin.com:3000/d/Ss3q6hSZk/dockersinfo?orgId=1&var-node={{ $labels.instance }}"
+        console: "https://ecs.console.aliyun.com/#/server/{{ $labels.instanceid }}/detail?regionId=cn-beijing"
+        cloudmonitor: "https://cloudmonitor.console.aliyun.com/#/hostDetail/chart/instanceId={{ $labels.instanceid }}&system=&region=cn-beijing&aliyunhost=true"
+        id: "{{ $labels.instanceid }}"
+        type: "aliyun_meta_ecs_info"
+
+#    - alert: container-mem-usage-high
+#      expr: dockersInfo:memory:used:percent > 80
+#      for: 1m
+#      labels:
+#        severity: warn
+#      annotations:
+#        summary: "instance: {{ $labels.instance }} 下的 container: {{ $labels.name }} 内存使用率超过80%"
+#        grafana: "http://proms.pengwin.com:3000/d/Ss3q6hSZk/dockersinfo?orgId=1&var-node={{ $labels.instance }}"
+#        console: "https://ecs.console.aliyun.com/#/server/{{ $labels.instanceid }}/detail?regionId=cn-beijing"
+#        cloudmonitor: "https://cloudmonitor.console.aliyun.com/#/hostDetail/chart/instanceId={{ $labels.instanceid }}&system=&region=cn-beijing&aliyunhost=true"
+#        id: "{{ $labels.instanceid }}"
+#        type: "aliyun_meta_ecs_info"
