@@ -1,11 +1,11 @@
 #!/bin/bash
 # b8_yang@163.com
-# modify by: aaa103439@hotmail.com 
+# modify by: aaa103439@hotmail.com
 
 
 if [[ "$(whoami)" != "root" ]]; then
-	echo "please run this script as root ." >&2
-	exit 1
+        echo "please run this script as root ." >&2
+        exit 1
 fi
 
 
@@ -13,7 +13,7 @@ echo -e "\033[31m 这个是centos7系统初始化脚本，获取更多工具及�
 sleep 5
 #yum update
 yum_update(){
-	yum update -y
+        yum update -y
 }
 #configure yum source
 yum_config(){
@@ -53,7 +53,7 @@ ulimit_config(){
   *           hard   nofile       102400
   *           soft   nproc        102400
   *           hard   nproc        102400
-  *           soft  memlock      unlimited 
+  *           soft  memlock      unlimited
   *           hard  memlock      unlimited
 EOF
 
@@ -77,15 +77,13 @@ sysctl_config(){
   kernel.core_pattern = /corefile/core-%e-%p-%t"
   # 系统级别上限， 即整个系统所有进程单位时间可打开的文件描述符数量
   fs.file-max = 6553500
-
   ### tcp/ip
   # 开启转发
   net.ipv4.ip_forward = 0
   # 保持反向路由回溯是关闭的，默认也是关闭
   net.ipv4.conf.default.rp_filter = 0
   net.ipv4.conf.default.accept_source_route = 0
-
-  # 
+  #
   net.ipv4.tcp_window_scaling = 1
   # 针对外网访问, 开启有选择应答，便于客户端仅发送丢失报文，从而提高网络接收性能，但会增加CPU消耗
   net.ipv4.tcp_sack = 1
@@ -105,31 +103,25 @@ sysctl_config(){
   net.ipv4.tcp_fin_timeout = 5
   # 尽量缓存syn，然而服务器压力过大的时候，并没有啥软用
   net.ipv4.tcp_syncookies = 1
-
   # 在每个网络接口接收数据包的速率比内核处理这些包的速率快时，允许送到队列的数据包的最大数目.放大10倍
   net.core.netdev_max_backlog = 10240
   # 对于还未获得对方确认的连接请求，可保存在队列中的最大数目.放大20倍
   net.ipv4.tcp_max_syn_backlog = 10240
   # 定义了系统中每一个端口最大的监听队列的长度.放大20倍
   net.core.somaxconn=10240
-
   # 开启时间戳
   net.ipv4.tcp_timestamps=1
   # 仅当服务器作为客户端的时候有效，必须在开启时间戳的前提下
   net.ipv4.tcp_tw_reuse = 1
-
   #最大timewait数
   net.ipv4.tcp_max_tw_buckets = 20000
   net.ipv4.ip_local_port_range = 1024 65500
-
   # 系统处理不属于任何进程的TCP链接
   net.ipv4.tcp_orphan_retries = 3
   net.ipv4.tcp_max_orphans = 327680
-
   # 开启 iptables 后，链路追踪上限和超时时间, 若没有使用 iptables，则无效
   net.netfilter.nf_conntrack_max = 6553500
   net.netfilter.nf_conntrack_tcp_timeout_established = 150
-
   # 下列参数如果设置不当，有可能导致系统进不去
   #net.ipv4.tcp_mem = 94500000 915000000 927000000
   #net.ipv4.tcp_rmem = 4096 87380 4194304
@@ -146,12 +138,12 @@ EOF
 }
 #install docker
 install_docker() {
-	yum install -y yum-utils device-mapper-persistent-data lvm2
+    yum install -y yum-utils device-mapper-persistent-data lvm2
     yum-config-manager --add-repo http://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo
     yum-config-manager --enable docker-ce-edge
-	yum-config-manager --enable docker-ce-test
-	yum-config-manager --disable docker-ce-edge
-	yum install docker-ce -y
+    yum-config-manager --enable docker-ce-test
+    yum-config-manager --disable docker-ce-edge
+    yum install docker-ce -y
     mkdir -p /etc/docker
     cat > /etc/docker/daemon.json << EOF
 {
@@ -159,17 +151,17 @@ install_docker() {
   "data-root": "/export/docker-data-root"
 }
 EOF
-	systemctl start docker
-	systemctl enable docker
-	echo "docker install succeed!!"
+        systemctl enable docker
+        echo "docker install succeed!!"
 }
 #install_docker_compace
 install_docker_compace() {
 #curl -L "https://github.com/docker/compose/releases/download/1.24.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 #mv ./docker-compose /usr/local/bin/
-#chmod +x /usr/local/bin/docker-compose 
-	yum install python3-pip -y
-	pip3 install docker-compose || pip install docker-compose
+#chmod +x /usr/local/bin/docker-compose
+    yum install python3-pip -y
+    pip3 install --upgrade pip
+    pip3 install docker-compose
     docker-compose --version
     echo "docker-compose install succeed!!"
 }
