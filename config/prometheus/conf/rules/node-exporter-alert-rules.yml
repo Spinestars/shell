@@ -8,7 +8,7 @@ groups:
         severity: critical
       annotations:
         summary: "{{$labels.nodename}}({{ $labels.instance }}) 宕机了"
-        grafana: "http://proms.pengwin.com:3000/d/9CWBz0bik/node-exporter?orgId=1&var-instance={{ $labels.instance }} "
+        grafana: "http://proms.zyh.cool:3000/d/9CWBz0bik/node-exporter?orgId=1&var-instance={{ $labels.instance }} "
         console: "https://ecs.console.aliyun.com/#/server/{{ $labels.instanceid }}/detail?regionId=cn-beijing"
         cloudmonitor: "https://cloudmonitor.console.aliyun.com/#/hostDetail/chart/instanceId={{ $labels.instanceid }}&system=&region=cn-beijing&aliyunhost=true"
         id: "{{ $labels.instanceid }}"
@@ -20,7 +20,7 @@ groups:
         severity: warn
       annotations:
         summary: "{{$labels.nodename}}({{ $labels.instance }}) cpu 使用率高于 {{ $value }}{{ $labels.unit }}"
-        grafana: "http://proms.pengwin.com:3000/d/9CWBz0bik/node-exporter?orgId=1&var-instance={{ $labels.instance }} "
+        grafana: "http://proms.zyh.cool:3000/d/9CWBz0bik/node-exporter?orgId=1&var-instance={{ $labels.instance }} "
         console: "https://ecs.console.aliyun.com/#/server/{{ $labels.instanceid }}/detail?regionId=cn-beijing"
         cloudmonitor: "https://cloudmonitor.console.aliyun.com/#/hostDetail/chart/instanceId={{ $labels.instanceid }}&system=&region=cn-beijing&aliyunhost=true"
         id: "{{ $labels.instanceid }}"
@@ -33,7 +33,7 @@ groups:
         severity: warn
       annotations:
         summary: "{{$labels.nodename}}({{ $labels.instance }}) cpu iowait 使用率高于 {{ $value }}{{ $labels.unit }}"
-        grafana: "http://proms.pengwin.com:3000/d/9CWBz0bik/node-exporter?orgId=1&var-instance={{ $labels.instance }} "
+        grafana: "http://proms.zyh.cool:3000/d/9CWBz0bik/node-exporter?orgId=1&var-instance={{ $labels.instance }} "
         console: "https://ecs.console.aliyun.com/#/server/{{ $labels.instanceid }}/detail?regionId=cn-beijing"
         cloudmonitor: "https://cloudmonitor.console.aliyun.com/#/hostDetail/chart/instanceId={{ $labels.instanceid }}&system=&region=cn-beijing&aliyunhost=true"
         id: "{{ $labels.instanceid }}"
@@ -46,7 +46,7 @@ groups:
         severity: warn
       annotations:
         summary: "{{$labels.nodename}}({{ $labels.instance }}) load1 使用率高于 {{ $value }}{{ $labels.unit }}"
-        grafana: "http://proms.pengwin.com:3000/d/9CWBz0bik/node-exporter?orgId=1&var-instance={{ $labels.instance }} "
+        grafana: "http://proms.zyh.cool:3000/d/9CWBz0bik/node-exporter?orgId=1&var-instance={{ $labels.instance }} "
         console: "https://ecs.console.aliyun.com/#/server/{{ $labels.instanceid }}/detail?regionId=cn-beijing"
         cloudmonitor: "https://cloudmonitor.console.aliyun.com/#/hostDetail/chart/instanceId={{ $labels.instanceid }}&system=&region=cn-beijing&aliyunhost=true"
         id: "{{ $labels.instanceid }}"
@@ -59,7 +59,7 @@ groups:
         severity: warn
       annotations:
         summary: "{{$labels.nodename}} 内存使用率高于 {{ $value }}{{ $labels.unit }}"
-        grafana: "http://proms.pengwin.com:3000/d/9CWBz0bik/node-exporter?orgId=1&var-instance={{ $labels.instance }} "
+        grafana: "http://proms.zyh.cool:3000/d/9CWBz0bik/node-exporter?orgId=1&var-instance={{ $labels.instance }} "
         console: "https://ecs.console.aliyun.com/#/server/{{ $labels.instanceid }}/detail?regionId=cn-beijing"
         cloudmonitor: "https://cloudmonitor.console.aliyun.com/#/hostDetail/chart/instanceId={{ $labels.instanceid }}&system=&region=cn-beijing&aliyunhost=true"
         id: "{{ $labels.instanceid }}"
@@ -72,7 +72,7 @@ groups:
         severity: warn
       annotations:
         summary: "{{$labels.nodename}} {{ $labels.device }}:{{ $labels.mountpoint }} 使用率高于 {{ $value }}{{ $labels.unit }}"
-        grafana: "http://proms.pengwin.com:3000/d/9CWBz0bik/node-exporter?orgId=1&var-instance={{ $labels.instance }} "
+        grafana: "http://proms.zyh.cool:3000/d/9CWBz0bik/node-exporter?orgId=1&var-instance={{ $labels.instance }} "
         console: "https://ecs.console.aliyun.com/#/server/{{ $labels.instanceid }}/detail?regionId=cn-beijing"
         cloudmonitor: "https://cloudmonitor.console.aliyun.com/#/hostDetail/chart/instanceId={{ $labels.instanceid }}&system=&region=cn-beijing&aliyunhost=true"
         id: "{{ $labels.instanceid }}"
@@ -85,7 +85,7 @@ groups:
         severity: info
       annotations:
         summary: "{{$labels.nodename}}({{ $labels.instance }}) iops read 使用率高于 {{ $value }}{{ $labels.unit }}"
-        grafana: "http://proms.pengwin.com:3000/d/9CWBz0bik/node-exporter?orgId=1&var-instance={{ $labels.instance }} "
+        grafana: "http://proms.zyh.cool:3000/d/9CWBz0bik/node-exporter?orgId=1&var-instance={{ $labels.instance }} "
         console: "https://ecs.console.aliyun.com/#/server/{{ $labels.instanceid }}/detail?regionId=cn-beijing"
         cloudmonitor: "https://cloudmonitor.console.aliyun.com/#/hostDetail/chart/instanceId={{ $labels.instanceid }}&system=&region=cn-beijing&aliyunhost=true"
         id: "{{ $labels.instanceid }}"
@@ -98,7 +98,7 @@ groups:
         severity: info
       annotations:
         summary: "{{$labels.nodename}}({{ $labels.instance }}) iops write 使用率高于 {{ $value }}{{ $labels.unit }}"
-        grafana: "http://proms.pengwin.com:3000/d/9CWBz0bik/node-exporter?orgId=1&var-instance={{ $labels.instance }} "
+        grafana: "http://proms.zyh.cool:3000/d/9CWBz0bik/node-exporter?orgId=1&var-instance={{ $labels.instance }} "
         console: "https://ecs.console.aliyun.com/#/server/{{ $labels.instanceid }}/detail?regionId=cn-beijing"
         cloudmonitor: "https://cloudmonitor.console.aliyun.com/#/hostDetail/chart/instanceId={{ $labels.instanceid }}&system=&region=cn-beijing&aliyunhost=true"
         id: "{{ $labels.instanceid }}"
@@ -111,7 +111,7 @@ groups:
         severity: info
       annotations:
         summary: "{{$labels.nodename}}({{ $labels.instance }}) 读取字节数 高于 {{ $value }}{{ $labels.unit }}"
-        grafana: "http://proms.pengwin.com:3000/d/9CWBz0bik/node-exporter?orgId=1&var-instance={{ $labels.instance }} "
+        grafana: "http://proms.zyh.cool:3000/d/9CWBz0bik/node-exporter?orgId=1&var-instance={{ $labels.instance }} "
         console: "https://ecs.console.aliyun.com/#/server/{{ $labels.instanceid }}/detail?regionId=cn-beijing"
         cloudmonitor: "https://cloudmonitor.console.aliyun.com/#/hostDetail/chart/instanceId={{ $labels.instanceid }}&system=&region=cn-beijing&aliyunhost=true"
         id: "{{ $labels.instanceid }}"
@@ -124,7 +124,7 @@ groups:
         severity: info
       annotations:
         summary: "{{$labels.nodename}}({{ $labels.instance }}) 写入字节数 高于 {{ $value }}{{ $labels.unit }}"
-        grafana: "http://proms.pengwin.com:3000/d/9CWBz0bik/node-exporter?orgId=1&var-instance={{ $labels.instance }} "
+        grafana: "http://proms.zyh.cool:3000/d/9CWBz0bik/node-exporter?orgId=1&var-instance={{ $labels.instance }} "
         console: "https://ecs.console.aliyun.com/#/server/{{ $labels.instanceid }}/detail?regionId=cn-beijing"
         cloudmonitor: "https://cloudmonitor.console.aliyun.com/#/hostDetail/chart/instanceId={{ $labels.instanceid }}&system=&region=cn-beijing&aliyunhost=true"
         id: "{{ $labels.instanceid }}"
@@ -137,7 +137,7 @@ groups:
         severity: info
       annotations:
         summary: "{{$labels.nodename}}({{ $labels.instance }}) 打开文件描述符 高于 {{ $value }}{{ $labels.unit }}"
-        grafana: "http://proms.pengwin.com:3000/d/9CWBz0bik/node-exporter?orgId=1&var-instance={{ $labels.instance }} "
+        grafana: "http://proms.zyh.cool:3000/d/9CWBz0bik/node-exporter?orgId=1&var-instance={{ $labels.instance }} "
         console: "https://ecs.console.aliyun.com/#/server/{{ $labels.instanceid }}/detail?regionId=cn-beijing"
         cloudmonitor: "https://cloudmonitor.console.aliyun.com/#/hostDetail/chart/instanceId={{ $labels.instanceid }}&system=&region=cn-beijing&aliyunhost=true"
         id: "{{ $labels.instanceid }}"
@@ -150,7 +150,7 @@ groups:
         severity: info
       annotations:
         summary: "{{$labels.nodename}}({{ $labels.instance }}) 包进入的错误速率 高于 {{ $value }}{{ $labels.unit }}"
-        grafana: "http://proms.pengwin.com:3000/d/9CWBz0bik/node-exporter?orgId=1&var-instance={{ $labels.instance }} "
+        grafana: "http://proms.zyh.cool:3000/d/9CWBz0bik/node-exporter?orgId=1&var-instance={{ $labels.instance }} "
         console: "https://ecs.console.aliyun.com/#/server/{{ $labels.instanceid }}/detail?regionId=cn-beijing"
         cloudmonitor: "https://cloudmonitor.console.aliyun.com/#/hostDetail/chart/instanceId={{ $labels.instanceid }}&system=&region=cn-beijing&aliyunhost=true"
         id: "{{ $labels.instanceid }}"
@@ -162,7 +162,7 @@ groups:
         severity: info
       annotations:
         summary: "{{$labels.nodename}}({{ $labels.instance }}) 包进入速率 高于 {{ $value }}{{ $labels.unit }}"
-        grafana: "http://proms.pengwin.com:3000/d/9CWBz0bik/node-exporter?orgId=1&var-instance={{ $labels.instance }} "
+        grafana: "http://proms.zyh.cool:3000/d/9CWBz0bik/node-exporter?orgId=1&var-instance={{ $labels.instance }} "
         console: "https://ecs.console.aliyun.com/#/server/{{ $labels.instanceid }}/detail?regionId=cn-beijing"
         cloudmonitor: "https://cloudmonitor.console.aliyun.com/#/hostDetail/chart/instanceId={{ $labels.instanceid }}&system=&region=cn-beijing&aliyunhost=true"
         id: "{{ $labels.instanceid }}"
@@ -175,7 +175,7 @@ groups:
         severity: info
       annotations:
         summary: "{{$labels.nodename}}({{ $labels.instance }}) 包流出速率 高于 {{ $value }}{{ $labels.unit }}"
-        grafana: "http://proms.pengwin.com:3000/d/9CWBz0bik/node-exporter?orgId=1&var-instance={{ $labels.instance }} "
+        grafana: "http://proms.zyh.cool:3000/d/9CWBz0bik/node-exporter?orgId=1&var-instance={{ $labels.instance }} "
         console: "https://ecs.console.aliyun.com/#/server/{{ $labels.instanceid }}/detail?regionId=cn-beijing"
         cloudmonitor: "https://cloudmonitor.console.aliyun.com/#/hostDetail/chart/instanceId={{ $labels.instanceid }}&system=&region=cn-beijing&aliyunhost=true"
         id: "{{ $labels.instanceid }}"
@@ -188,7 +188,7 @@ groups:
         severity: info
       annotations:
         summary: "{{$labels.nodename}}({{ $labels.instance }}) tcp连接数量 高于 {{ $value }}{{ $labels.unit }}"
-        grafana: "http://proms.pengwin.com:3000/d/9CWBz0bik/node-exporter?orgId=1&var-instance={{ $labels.instance }} "
+        grafana: "http://proms.zyh.cool:3000/d/9CWBz0bik/node-exporter?orgId=1&var-instance={{ $labels.instance }} "
         console: "https://ecs.console.aliyun.com/#/server/{{ $labels.instanceid }}/detail?regionId=cn-beijing"
         cloudmonitor: "https://cloudmonitor.console.aliyun.com/#/hostDetail/chart/instanceId={{ $labels.instanceid }}&system=&region=cn-beijing&aliyunhost=true"
         id: "{{ $labels.instanceid }}"
@@ -201,7 +201,7 @@ groups:
         severity: info
       annotations:
         summary: "{{$labels.nodename}}({{ $labels.instance }}) 僵死进程数量 高于 {{ $value }}{{ $labels.unit }}"
-        grafana: "http://proms.pengwin.com:3000/d/9CWBz0bik/node-exporter?orgId=1&var-instance={{ $labels.instance }} "
+        grafana: "http://proms.zyh.cool:3000/d/9CWBz0bik/node-exporter?orgId=1&var-instance={{ $labels.instance }} "
         console: "https://ecs.console.aliyun.com/#/server/{{ $labels.instanceid }}/detail?regionId=cn-beijing"
         cloudmonitor: "https://cloudmonitor.console.aliyun.com/#/hostDetail/chart/instanceId={{ $labels.instanceid }}&system=&region=cn-beijing&aliyunhost=true"
         id: "{{ $labels.instanceid }}"
@@ -214,7 +214,7 @@ groups:
         severity: info
       annotations:
         summary: "{{$labels.nodename}}({{ $labels.instance }}) {{ $labels.desc }}  {{ $value }}{{ $labels.unit }}"
-        grafana: "http://proms.pengwin.com:3000/d/9CWBz0bik/node-exporter?orgId=1&var-instance={{ $labels.instance }} "
+        grafana: "http://proms.zyh.cool:3000/d/9CWBz0bik/node-exporter?orgId=1&var-instance={{ $labels.instance }} "
         console: "https://ecs.console.aliyun.com/#/server/{{ $labels.instanceid }}/detail?regionId=cn-beijing"
         cloudmonitor: "https://cloudmonitor.console.aliyun.com/#/hostDetail/chart/instanceId={{ $labels.instanceid }}&system=&region=cn-beijing&aliyunhost=true"
         id: "{{ $labels.instanceid }}"
