@@ -79,7 +79,7 @@ sysctl_config(){
   fs.file-max = 6553500
   ### tcp/ip
   # 开启转发
-  net.ipv4.ip_forward = 0
+  net.ipv4.ip_forward = 1
   # 保持反向路由回溯是关闭的，默认也是关闭
   net.ipv4.conf.default.rp_filter = 0
   net.ipv4.conf.default.accept_source_route = 0
